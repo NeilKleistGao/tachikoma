@@ -1,4 +1,3 @@
 <Solution>
-  <Project Path="Nez/Nez.Portable/Nez.MG38.csproj" />
   <Project Path="Tachikoma/Tachikoma.csproj" />
 </Solution>

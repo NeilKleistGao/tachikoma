@@ -1,2 +1,2 @@
-﻿using var game = new Tachikoma.Tachikoma();
+﻿using var game = new Tachikoma.DesktopPetTachikoma();
 game.Run();

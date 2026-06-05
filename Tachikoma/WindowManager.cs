@@ -39,5 +39,24 @@ namespace Tachikoma {
     private const uint SWP_NOACTIVATE = 0x0010;
     private const uint SWP_SHOWWINDOW = 0x0040;
     private const uint SWP_NOZORDER = 0x0004;
+
+    private static void RefreshWindow(IntPtr hWnd) {
+      SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW | SWP_NOZORDER);
+      UpdateWindow(hWnd);
+    }
+
+    public static void SetColorKeyTransparent(IntPtr hWnd, uint colorKey) {
+      uint exStyle = GetWindowLong(hWnd, GWL_EXSTYLE);
+      SetWindowLongPtr(hWnd, GWL_EXSTYLE, new IntPtr(exStyle | WS_EX_LAYERED));
+      SetLayeredWindowAttributes(hWnd, colorKey, 0, LWA_COLORKEY);
+      RefreshWindow(hWnd);
+    }
+
+    public static void SetTransparent(IntPtr hWnd) {
+      uint exStyle = GetWindowLong(hWnd, GWL_EXSTYLE);
+      SetWindowLongPtr(hWnd, GWL_EXSTYLE, new IntPtr(exStyle | WS_EX_LAYERED));
+      SetLayeredWindowAttributes(hWnd, 0, 0, LWA_ALPHA);
+      RefreshWindow(hWnd);
+    }
   }
 }
