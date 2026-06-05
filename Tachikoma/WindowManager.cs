@@ -52,11 +52,8 @@ namespace Tachikoma {
       RefreshWindow(hWnd);
     }
 
-    public static void SetTransparent(IntPtr hWnd) {
-      uint exStyle = GetWindowLong(hWnd, GWL_EXSTYLE);
-      SetWindowLongPtr(hWnd, GWL_EXSTYLE, new IntPtr(exStyle | WS_EX_LAYERED));
-      SetLayeredWindowAttributes(hWnd, 0, 0, LWA_ALPHA);
-      RefreshWindow(hWnd);
+    public static void SetTopMost(IntPtr hWnd) {
+      SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
     }
-  }
+}
 }
