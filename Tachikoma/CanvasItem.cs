@@ -5,9 +5,14 @@ using System.Collections.Generic;
 
 namespace Tachikoma {
   internal abstract class CanvasItem {
-    public Vector2 Position { get; set; } = Vector2.Zero;
+    private Vector2 localPosition = Vector2.Zero;
+    private Vector2 globalPosition = Vector2.Zero;
 
-    protected List<CanvasItem> children = new();
+    public Vector2 LocalPosition { get => localPosition; }
+    public Vector2 GlobalPosition { get => globalPosition; }
+
+    private List<CanvasItem> children = new();
+    private CanvasItem parent = null;
 
     public virtual void Initialize() {
       foreach (var child in children) {
@@ -31,6 +36,29 @@ namespace Tachikoma {
       foreach (var child in children) {
         child.Draw(batch, gameTime);
       }
+    }
+
+    public void SetPosition(Vector2 position) {
+      localPosition = position;
+      UpdateGlobalPosition();
+    }
+
+    private void UpdateGlobalPosition() {
+      if (parent == null) {
+        globalPosition = localPosition;
+      }
+      else {
+        globalPosition = parent.GlobalPosition + localPosition;
+      }
+      foreach (var child in children) {
+        child.UpdateGlobalPosition();
+      }
+    }
+
+    public void AddChild(CanvasItem child) {
+      children.Add(child);
+      child.parent = this;
+      child.UpdateGlobalPosition();
     }
   }
 }

@@ -7,6 +7,17 @@ namespace Tachikoma {
     private Texture2D texture;
     private string textureID;
 
+    public Vector2 Size {
+      get {
+        if (texture != null) {
+          return new Vector2(texture.Width, texture.Height);
+        }
+        else {
+          return Vector2.Zero;
+        }
+      }
+    }
+
     // TODO: animation support
 
     public Sprite(string textureID) {
@@ -21,7 +32,7 @@ namespace Tachikoma {
     public override void Draw(SpriteBatch batch, GameTime gameTime) {
       base.Draw(batch, gameTime);
       if (texture != null) {
-        batch.Draw(texture, Position, Color.White);
+        batch.Draw(texture, GlobalPosition, Color.White);
       }
     }
   }

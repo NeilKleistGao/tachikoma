@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Tachikoma": {
+      "commandName": "Project",
+      "debugEngines": "managed"
+    }
+  }
+}
