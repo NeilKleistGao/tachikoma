@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System.Windows.Forms;
 
 namespace Tachikoma {
   public class DesktopPetTachikoma : Game {
     private GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
+    private ContextMenuStrip trayMenu;
+    private NotifyIcon trayIcon;
 
     private CanvasItem root = null;
 
@@ -20,10 +23,25 @@ namespace Tachikoma {
       var hWnd = Window.Handle;
       WindowManager.SetColorKeyTransparent(hWnd, 0xFF00FF);
       WindowManager.SetTopMost(hWnd);
+      WindowManager.SetToolWindow(hWnd);
+      InitializeTray();
 
       root = new Tachikoma();
       root?.Initialize();
       base.Initialize();
+    }
+
+    private void InitializeTray() {
+      trayMenu = new ContextMenuStrip();
+      trayMenu.Items.Add("Settings"); // TODO
+      trayMenu.Items.Add("Exit", null, (s, e) => Exit());
+
+      trayIcon = new NotifyIcon {
+        Text = "Tachikoma",
+        ContextMenuStrip = trayMenu,
+        Visible = true,
+        Icon = System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath)
+      };
     }
 
     protected override void LoadContent() {
@@ -44,6 +62,12 @@ namespace Tachikoma {
       spriteBatch.End();
 
       base.Draw(gameTime);
+    }
+
+    protected override void OnExiting(object sender, ExitingEventArgs args) {
+      trayMenu?.Dispose();
+      trayIcon?.Dispose();
+      base.OnExiting(sender, args);
     }
   }
 }
