@@ -34,5 +34,9 @@ namespace Tachikoma {
         batch.Draw(texture, GlobalPosition, Color.White);
       }
     }
+
+    public override Rectangle GetBounds() {
+      return new Rectangle((int)GlobalPosition.X, (int)GlobalPosition.Y, (int)Size.X, (int)Size.Y);
+    }
   }
 }

@@ -8,6 +8,8 @@ namespace Tachikoma {
     public override void Initialize() {
       base.Initialize();
       sprite = new Sprite("tachikoma");
+      sprite.Clickable = true;
+      sprite.OnClicked += SwitchLLMDialogueUI;
       AddChild(sprite);
     }
 
@@ -17,7 +19,12 @@ namespace Tachikoma {
       int width = SystemInformation.WorkingArea.Size.Width;
       int height = SystemInformation.WorkingArea.Size.Height;
       var size = sprite.Size;
-      SetPosition(new Microsoft.Xna.Framework.Vector2(width * 0.9f - size.X, height - size.Y));
+      SetPosition(new Vector2(width * 0.9f - size.X, height - size.Y));
+    }
+
+    private void SwitchLLMDialogueUI(object sender, EventArgs e) {
+      // TODO: 
+      Debug.WriteLine("rua: clicked.");
     }
   }
 }
