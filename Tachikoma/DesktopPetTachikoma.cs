@@ -7,6 +7,7 @@ namespace Tachikoma {
     private SpriteBatch spriteBatch;
     private ContextMenuStrip trayMenu;
     private NotifyIcon trayIcon;
+    private ImGuiRenderer imGuiRenderer;
 
     private CanvasItem root = null;
 
@@ -25,6 +26,8 @@ namespace Tachikoma {
       WindowManager.SetTopMost(hWnd);
       WindowManager.SetToolWindow(hWnd);
       InitializeTray();
+
+      imGuiRenderer = new ImGuiRenderer(this);
 
       root = new Tachikoma();
       root?.Initialize();
