@@ -33,6 +33,7 @@ namespace Tachikoma {
 
     private void InitializeTray() {
       trayMenu = new ContextMenuStrip();
+      trayMenu.Items.Add("Hide", null, (s, e) => HidePet());
       trayMenu.Items.Add("Settings"); // TODO
       trayMenu.Items.Add("Exit", null, (s, e) => Exit());
 
@@ -42,6 +43,18 @@ namespace Tachikoma {
         Visible = true,
         Icon = System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath)
       };
+    }
+
+    private void HidePet() {
+      root.Visible = false;
+      trayMenu.Items.RemoveAt(0);
+      trayMenu.Items.Insert(0, new ToolStripMenuItem("Show", null, (s, e) => ShowPet()));
+    }
+
+    private void ShowPet() {
+      root.Visible = true;
+      trayMenu.Items.RemoveAt(0);
+      trayMenu.Items.Insert(0, new ToolStripMenuItem("Hide", null, (s, e) => HidePet()));
     }
 
     protected override void LoadContent() {

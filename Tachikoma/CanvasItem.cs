@@ -4,11 +4,10 @@ using System.Collections.Generic;
 
 namespace Tachikoma {
   internal abstract class CanvasItem {
-    private Vector2 localPosition = Vector2.Zero;
-    private Vector2 globalPosition = Vector2.Zero;
+    public Vector2 LocalPosition { get; private set; } = Vector2.Zero;
+    public Vector2 GlobalPosition { get; private set; } = Vector2.Zero;
 
-    public Vector2 LocalPosition { get => localPosition; }
-    public Vector2 GlobalPosition { get => globalPosition; }
+    public bool Visible { get; set; } = true;
 
     private List<CanvasItem> children = new();
     private CanvasItem parent = null;
@@ -32,22 +31,24 @@ namespace Tachikoma {
     }
 
     public virtual void Draw(SpriteBatch batch, GameTime gameTime) {
+      if (!Visible) { return; }
+
       foreach (var child in children) {
         child.Draw(batch, gameTime);
       }
     }
 
     public void SetPosition(Vector2 position) {
-      localPosition = position;
+      LocalPosition = position;
       UpdateGlobalPosition();
     }
 
     private void UpdateGlobalPosition() {
       if (parent == null) {
-        globalPosition = localPosition;
+        GlobalPosition = LocalPosition;
       }
       else {
-        globalPosition = parent.GlobalPosition + localPosition;
+        GlobalPosition = parent.GlobalPosition + LocalPosition;
       }
       foreach (var child in children) {
         child.UpdateGlobalPosition();
