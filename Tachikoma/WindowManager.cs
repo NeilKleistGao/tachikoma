@@ -19,17 +19,10 @@ namespace Tachikoma {
     private static extern bool UpdateWindow(IntPtr hWnd);
 
     private const int GWL_EXSTYLE = -20;
-    private const int GWL_STYLE = -16;
 
     private const uint WS_EX_LAYERED = 0x00080000;
-    private const uint WS_EX_TRANSPARENT = 0x00000020;
-    private const uint WS_EX_TOOLWINDOW = 0x00000080;
-    private const uint WS_CAPTION = 0x00C00000;
-    private const uint WS_THICKFRAME = 0x00040000;
-    private const uint WS_BORDER = 0x00800000;
 
     private const uint LWA_COLORKEY = 0x01;
-    private const uint LWA_ALPHA = 0x02;
 
     private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
 
@@ -55,5 +48,5 @@ namespace Tachikoma {
     public static void SetTopMost(IntPtr hWnd) {
       SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
     }
-}
+  }
 }

@@ -1,16 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Tachikoma {
   public class DesktopPetTachikoma : Game {
     private GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
 
-    // For Test
-    private Texture2D texture;
-    private Vector2 position;
-    // ---
+    private CanvasItem root = null;
 
     public DesktopPetTachikoma() {
       graphics = new GraphicsDeviceManager(this);
@@ -26,28 +22,26 @@ namespace Tachikoma {
       WindowManager.SetColorKeyTransparent(hWnd, 0xFF00FF);
       WindowManager.SetTopMost(hWnd);
 
+      root = new Tachikoma();
+      root?.Initialize();
       base.Initialize();
     }
 
     protected override void LoadContent() {
       spriteBatch = new SpriteBatch(GraphicsDevice);
-
-      texture = Content.Load<Texture2D>("icon");
-      position = new Vector2(0, 0);
+      root?.LoadContent(Content);
     }
 
     protected override void Update(GameTime gameTime) {
-      if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-        Exit();
-
       base.Update(gameTime);
+      root?.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime) {
       GraphicsDevice.Clear(new Color(255, 0, 255));
 
       spriteBatch.Begin();
-      spriteBatch.Draw(texture, position, Color.White);
+      root?.Draw(spriteBatch, gameTime);
       spriteBatch.End();
 
       base.Draw(gameTime);
