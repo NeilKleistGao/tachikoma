@@ -23,11 +23,14 @@ namespace Tachikoma {
       Window.IsBorderless = true;
       var hWnd = Window.Handle;
       WindowManager.SetColorKeyTransparent(hWnd, 0xFF00FF);
+//#if !DEBUG
       WindowManager.SetTopMost(hWnd);
+//#endif
       WindowManager.SetToolWindow(hWnd);
       InitializeTray();
 
       imGuiRenderer = new ImGuiRenderer(this);
+      imGuiRenderer.RebuildFontAltas();
 
       root = new Tachikoma();
       root?.Initialize();
@@ -73,9 +76,13 @@ namespace Tachikoma {
     protected override void Draw(GameTime gameTime) {
       GraphicsDevice.Clear(new Color(255, 0, 255));
 
+      imGuiRenderer.StartLayout(gameTime);
+
       spriteBatch.Begin();
       root?.Draw(spriteBatch, gameTime);
       spriteBatch.End();
+
+      imGuiRenderer.FinishLayout();
 
       base.Draw(gameTime);
     }
